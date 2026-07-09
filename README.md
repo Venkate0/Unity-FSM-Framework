@@ -2,7 +2,6 @@
 
 A **pure-C#, type-safe finite state machine** for Unity — zero Unity dependencies in the core, so it drops into any project (or any C# codebase) unchanged — demonstrated by a complete patrol/chase/attack enemy AI with sight and hearing perception, NavMesh movement, and full editor gizmos.
 
-Built for Unity 6 (6000.x). The FSM core itself has no Unity version requirement at all.
 
 ---
 
