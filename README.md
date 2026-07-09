@@ -89,89 +89,14 @@ Unity's Animator is often (mis)used as a general-purpose state machine. For game
 
 ---
 
-## Scene Setup (step by step)
+#GamePlay
 
-The repository contains the scripts plus minimal project files. Building the demo scene takes ~10 minutes.
 
-### 0. Open the project
+<img width="1445" height="741" alt="Screenshot 2026-07-08 171810" src="https://github.com/user-attachments/assets/6b532f43-027c-4b32-a6a2-eb44701ef0af" />
 
-1. **Unity Hub → Add → Add project from disk**, select the `Unity-FSM-Framework` folder, open with **Unity 6** (6000.x). The **AI Navigation** package is already declared in `Packages/manifest.json` and installs automatically.
-2. **File → New Scene** (Basic 3D), save as `Assets/Scenes/FsmDemo.unity`.
 
-### 1. Ground + NavMesh
+https://github.com/user-attachments/assets/def7d8b5-c91e-4abd-b5cb-ff24b89c3143
 
-1. **GameObject → 3D Object → Plane**, rename `Ground`, Position `(0, 0, 0)`, Scale `(5, 1, 5)`.
-2. With `Ground` selected: **Add Component → NavMesh Surface** (from the AI Navigation package).
-3. On the NavMesh Surface component click **Bake**. A blue overlay appears on the plane (toggle visibility with the scene-view AI Navigation overlay if needed).
-
-### 2. Patrol waypoints (square)
-
-1. **GameObject → Create Empty**, rename `Waypoints`, Position `(0, 0, 0)`.
-2. Create four empty children of `Waypoints`, named `WP_0` … `WP_3`, positioned in a square:
-
-   | Waypoint | Position |
-   |---|---|
-   | `WP_0` | `(-8, 0, -8)` |
-   | `WP_1` | `( 8, 0, -8)` |
-   | `WP_2` | `( 8, 0,  8)` |
-   | `WP_3` | `(-8, 0,  8)` |
-
-### 3. Player dummy
-
-1. **GameObject → 3D Object → Capsule**, rename `PlayerDummy`, Position `(0, 1, 12)` — outside the patrol square so the enemy starts unaware.
-2. In the Inspector's **Tag** dropdown, set the tag to **Player** (it's a built-in tag — no need to create it).
-3. **Add Component → Player Dummy** (script). Move Speed `5`, Turn Speed `720`.
-4. Keep the default Capsule Collider (the perception OverlapSphere needs a collider to find).
-5. (Optional) A bright material so you can spot yourself.
-
-### 4. Enemy
-
-1. **GameObject → 3D Object → Capsule**, rename `Enemy`, Position `(-8, 1, -8)` (on the first waypoint).
-2. **Add Component → Nav Mesh Agent.** Defaults are fine (Speed is overridden by the states).
-3. **Add Component → Enemy AI** (script). Set fields:
-
-   | Field | Value |
-   |---|---|
-   | Idle Duration | `2` |
-   | Waypoints | Size `4` → drag `WP_0`, `WP_1`, `WP_2`, `WP_3` in order |
-   | Patrol Speed | `2` |
-   | Waypoint Tolerance | `0.5` |
-   | Sight Range | `10` |
-   | Fov Angle | `90` |
-   | Detection Layers | `Everything` (or just the player's layer) |
-   | Hearing Range | `4` |
-   | Hear Only Moving Player | ✔ |
-   | Chase Speed | `4.5` |
-   | Lose Target Duration | `3` |
-   | Repath Interval | `0.2` |
-   | Attack Range | `1.8` |
-   | Attack Range Hysteresis | `0.4` |
-   | Attack Cooldown | `1.2` |
-   | Attack Turn Speed | `360` |
-
-4. (Optional) Drag `Enemy` into `Assets/Prefabs/` to make it a prefab — waypoint references are scene objects, so re-assign them on scene instances.
-
-### 5. Debug overlay
-
-1. **GameObject → Create Empty**, rename `DebugOverlay`. **Add Component → Debug Overlay.**
-2. Assign **Enemy** = the `Enemy` object. Kill Key `K`.
-
-### 6. Camera
-
-Select **Main Camera**, Position `(0, 22, -16)`, Rotation `(55, 0, 0)` — a comfortable overview of the whole patrol square.
-
-### 7. Play
-
-Press **Play**:
-
-- The enemy idles 2 s, then patrols the yellow square (select it in the Scene view to watch the gizmos and the coloured state label live).
-- Walk into the white sight ring *inside* the green cone → **Chase**.
-- Sneak up *behind* the enemy while stationary — nothing. Move inside the blue ring → heard → **Chase**.
-- Let it reach you → **Attack** (Console logs the strikes on cooldown).
-- Run away → **Chase**, stay hidden 3 s → back to **Patrol**.
-- Press **K** → **Dead**, permanently.
-
-The overlay shows the state, time-in-state, why the last transition fired, and live sight/hearing indicators throughout.
 
 ---
 
